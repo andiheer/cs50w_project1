@@ -1,4 +1,5 @@
 from django.shortcuts import render
+from django.utils.html import format_html
 
 from . import util
 
@@ -18,10 +19,5 @@ def view_entry(request,title):
     html_output.convert(util.get_entry(title))
 
     return render(request, "encyclopedia/view_entry.html", {
-        "entry": html_output.convert(util.get_entry(title)),
-        "title": title
-    }
-    
-
-    
-    )
+        "entry": format_html(html_output.convert(util.get_entry(title)))
+    })
