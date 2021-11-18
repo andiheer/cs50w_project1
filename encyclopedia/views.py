@@ -21,3 +21,8 @@ def view_entry(request,title):
     return render(request, "encyclopedia/view_entry.html", {
         "entry": format_html(html_output.convert(util.get_entry(title)))
     })
+
+# Create new entry or edit existiing one
+# If title is empty string, create new entry
+# def edit_entry(request,title):
+    
