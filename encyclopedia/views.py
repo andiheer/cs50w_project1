@@ -24,5 +24,18 @@ def view_entry(request,title):
 
 # Create new entry or edit existiing one
 # If title is empty string, create new entry
-# def edit_entry(request,title):
+def edit_entry(request,title):
+    # Get existing entry if exists
+    if title == "*":
+        content = ""
+        title = ""
+    else:
+        content = util.get_entry(title)
+    if content == "None":
+        content = ""
+
+    return render(request, "encyclopedia/edit_entry.html", {
+        "title": title,
+        "content": content
+    })
     
