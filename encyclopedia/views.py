@@ -1,7 +1,8 @@
 from django.shortcuts import render
 from django.utils.html import format_html
 
-from . import util
+from . import util, forms 
+
 
 from markdown2 import Markdown
 
@@ -25,17 +26,27 @@ def view_entry(request,title):
 # Create new entry or edit existiing one
 # If title is empty string, create new entry
 def edit_entry(request,title):
-    # Get existing entry if exists
-    if title == "*":
-        content = ""
-        title = ""
-    else:
-        content = util.get_entry(title)
-    if content == "None":
-        content = ""
+    
+    # Form handling: GET or POST?
+    if request.method == 'POST':
+        form_entry = EditForm(request.POST)
+        if form_entry.is_valid():
 
-    return render(request, "encyclopedia/edit_entry.html", {
-        "title": title,
-        "content": content
-    })
+
+    # GET: show form
+    else:
+        # Get existing entry if exists
+        if title == "new_entry":
+            content = ""
+            title = ""
+        else:
+            content = util.get_entry(title)
+        if content == "None":
+            content = ""
+        form_edit= EditForm(request,title,content)
+
+        return render(request, "encyclopedia/edit_entry.html", {
+            "title": title,
+            "content": content
+        })
     
